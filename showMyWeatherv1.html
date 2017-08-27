@@ -3,12 +3,12 @@
 
 <head>
   <style media="screen" type="text/css">
-	  body {
-	  padding: 20px;
-	  background-color:#ffffc9
-	  }
+    body {
+    padding: 20px;
+    background-color:#ffffc9
+    }
 
-	  p { margin : 0; }
+    p { margin : 0; }
   </style>
 
 </head>
@@ -17,13 +17,15 @@
 
 <p><button onclick="geoFindMe()">Show my weather</button></p>
 <div id="out"></div>
+<div id ="map"></div>
 
 
 <script>
 function geoFindMe() {
   var output = document.getElementById("out");
+  var mapInDoc = document.getElementById("map");
 
-  if (!navigator.geolocation){
+  if (!navigator.geolocation) {
     output.innerHTML = "<p>Geolocation is not supported by your browser</p>";
     return;
   }
@@ -32,33 +34,37 @@ function geoFindMe() {
     var latitude  = position.coords.latitude;
     var longitude = position.coords.longitude;
 
-//   output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
-
-// BEGINNING OF WEATHER API CALL. --  Build the URL for the API call
-
 
     var url4API = "https://fcc-weather-api.glitch.me/api/current?" + 'lat=' + latitude + '&lon='+ longitude;
 
     var weatherCall = new XMLHttpRequest();
-	
+  
 
-    weatherCall.open("GET", url4API, false); 	
+    weatherCall.open("GET", url4API, false);  
 
     weatherCall.send();
 
     var weatherResponse = JSON.parse(weatherCall.response);
 
-    let tempInC = weatherResponse.main.temp; 
+    let tempInC = (weatherResponse.main.temp).toFixed(1);
+    var tempInF = (((weatherResponse.main.temp) * (9/5)) + 32).toFixed(1);
+    let deviceLocation = weatherResponse.name;  
+    let weatherIcon = weatherResponse.weather[0].icon;
 
-     output.innerHTML = '<p> The current temperature in your location is: ' + tempInC + '°C</p>';
+     output.innerHTML = '<p> The current temperature in ' + deviceLocation + ' is: ' + tempInC + '°C' + ' or ' + tempInF + '°F</p>';
 
-    var img = new Image();
-    img.src = "https://maps.googleapis.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=13&size=300x300&sensor=false";
+    console.log(weatherResponse);
 
+    var img = new Image(200, 200);
+      img.src = weatherIcon;
     output.appendChild(img);
 
+    
+    var googleMap = new Image();
+      googleMap.src = "https://maps.googleapis.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=13&size=300x300&sensor=false";
+    mapInDoc.appendChild(googleMap);
 
-   //  console.log(weatherResponse);
+
 
   }
 
@@ -70,6 +76,8 @@ function geoFindMe() {
 
   navigator.geolocation.getCurrentPosition(success, error);
 }
+    
+
 
 
 </script>
