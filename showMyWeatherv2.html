@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <h2><a href = "https://www.freecodecamp.org/challenges/show-the-local-weather">Freecodecamp</a> challenge: My Weather App</h2>
+  <h1><a href = "https://www.freecodecamp.org/challenges/show-the-local-weather" target="_blank">Freecodecamp</a> challenge: My Weather App</h1>
   <style media="screen" type="text/css">
     body {
     padding: 20px;
@@ -21,16 +21,25 @@
 
 <body class="fahrenheit">
 
-<p><button onclick="geoFindMe()">Show my weather</button></p>
+  <p>This web app accesses your computer's GPS and tells you the weather for <strong>your</strong> location</p>
 
-  <button onclick="swapTemp()">Celsius</button><button>Fahrenheit</button>
+  <br>
+
+  <button onclick="geoFindMe()">Show my weather</button><br>
+
+  <button onclick="swapTemp()">Celsius</button>
+  <button>Fahrenheit</button>
+  <br>
+  <br>
+  <br>
+  <img src="http://www.weather.gov/images/phi/features/weather_symbols.png" width="100" height="100" alt="weather symbols from weather.gov">
+  <br>
 
   <div id="temperature"></div>
 
-  <div id="out">
-
-</div>
-<div id ="map"></div>
+  <div id="out"></div>
+  <br>
+  <div id ="map"></div>
 
 
 <script>
@@ -40,7 +49,7 @@ function geoFindMe() {
   var mapInDoc = document.getElementById("map");
 
   if (!navigator.geolocation) {
-    output.innerHTML = "<p>Geolocation is not supported by your browser</p>";
+    output.innerHTML = "<p>Sorry, geolocation is not supported by your browser</p>";
     return;
   }
 
@@ -71,7 +80,7 @@ function geoFindMe() {
     let deviceLocation = weatherResponse.name;  
     // let weatherIcon = weatherResponse.weather[1].icon;
 
-    output.innerHTML = '<p> The current temperature in ' + deviceLocation + ' is: <span class="celsius">' + tempInC + '°C</span><span class="fahrenheit">' + tempInF + '°F</span></p>';
+    output.innerHTML = '<p> The current temperature in ' + deviceLocation + ' is: <span class="celsius">' + '<strong>' + tempInC + '</strong>' +'°<strong>C</strong></span><span class="fahrenheit">' + '<strong>' + tempInF + '</strong>' + '°<strong>F</strong></span></p>';
 
     /*
     var img = new Image(200, 200);
@@ -99,21 +108,29 @@ function geoFindMe() {
   navigator.geolocation.getCurrentPosition(success, error);
 }
 
-var units = document.getElementById("class");
 
+
+/*
 function swapTemp() {
  // var units = document.getElementById("class");
-  if (units === "celsius") {
-     units === "fahrenheit";
+  if (units[0] === "body.celsius") {
+     .body === "fahrenheit";
      console.log(units);
   } else {
      units === "celsius";
      console.log(units);
   }
 }
+*/
 
+  </script>
 
-</script>
+  <h3>How this web app works:</h3></body><br>
+  <ol>
+     <li>It uses the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition" target="_blank">Geolocation.getCurrentPosition() method</a> is used to get the coordinates of your device's current location.</li>
+     <li>It then calls <a href = "https://fcc-weather-api.glitch.me" target="_blank">Freecodecamp's weather API</a> to get the weather using your device's location coordinates.</li>
+  </ol>
+
 
 </body>
 </html>
